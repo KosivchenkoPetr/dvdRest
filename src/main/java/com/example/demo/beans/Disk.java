@@ -98,26 +98,14 @@ public class Disk {
             return false;
         if (getClass() != obj.getClass())
             return false;
+
         Disk other = (Disk)obj;
-        if (currentOwner == null) {
-            if (other.currentOwner != null)
-                return false;
-        } else if (!currentOwner.equals(other.currentOwner))
-            return false;
-        if (!Objects.equals(id, other.id))
-            return false;
-        if (master == null) {
-            if (other.master != null)
-                return false;
-        } else if (!master.equals(other.master))
-            return false;
-        if (name == null) {
-            return other.name == null;
-        } else return name.equals(other.name);
+
+        return getCurrentOwner() == other.getCurrentOwner() && getMaster() == other.getMaster() && Objects.equals(getName(), other.getName()) && Objects.equals(getId(), other.getId());
     }
 
     @Override
     public String toString() {
-        return "Disk [id=" + id + ", name=" + name + ", master=" + master + ", currentOwner=" + currentOwner + "]";
+        return "Disk [id=" + id + ", name=" + name + ", master=" + master.getName() + ", currentOwner=" + currentOwner.getName() + "]";
     }
 }
