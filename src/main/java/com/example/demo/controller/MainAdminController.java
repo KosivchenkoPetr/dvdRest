@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
 import com.example.demo.beans.TakenItem;
-import com.example.demo.dao.Dao;
+import com.example.demo.dao.DaoDisk;
+import com.example.demo.dao.DaoTakenItem;
+import com.example.demo.dao.DaoUser;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -27,15 +29,15 @@ import java.util.List;
 public class MainAdminController {
 
     @Autowired
-    private Dao dao;
+    private DaoTakenItem daoTakenItem;
+    private DaoUser daoUser;
+    private DaoDisk daoDisk;
 
     @RequestMapping(method = RequestMethod.OPTIONS)
     ResponseEntity<?> options() {
-
-
         return ResponseEntity.ok().allow(HttpMethod.GET, HttpMethod.POST, HttpMethod.PUT, HttpMethod.DELETE).build();
-
     }
+
     @Operation(
             summary = "Get all taken items",
             description = "Get all taken items"
@@ -43,7 +45,7 @@ public class MainAdminController {
     @GetMapping(value = "/all/takenItem")
     public ResponseEntity<List<TakenItem>> getAllCollectionTakenItems() {
         log.info("Admin get all taken items");
-        return ResponseEntity.ok(dao.getAllTakenItems());
+        return ResponseEntity.ok(daoTakenItem.getAllTakenItems());
     }
 
     @Operation(
@@ -53,7 +55,7 @@ public class MainAdminController {
     @GetMapping(value = "/user/{id}/disk/{idDisk}")
     public ResponseEntity<?> addDiskToUser(@PathVariable Long id, @PathVariable Long idDisk) {
         log.info("Admin add disk with id "+idDisk+" to user with id "+id);
-        return dao.addDiskToUser(id, idDisk);
+        return daoDisk.addDiskToUser(id, idDisk);
     }
 
     @Operation(
@@ -63,7 +65,7 @@ public class MainAdminController {
     @GetMapping(value = "/currentOwner/{id}")
     public List<?> getAllTakenItemsOfCurrentOwner(@PathVariable Long id) {
         log.info("Admin get all taken items of owner with id "+id);
-        return dao.getAllTakenItemsOfCurrentOwner(id);
+        return daoTakenItem.getAllTakenItemsOfCurrentOwner(id);
 
     }
 
@@ -74,7 +76,7 @@ public class MainAdminController {
     @GetMapping(value = "/currentOwner/free")
     public List<?> getAllTakenItemsFree() {
         log.info("Admin get all taken free items");
-        return dao.getAllTakenItemsFree();
+        return daoTakenItem.getAllTakenItemsFree();
 
     }
 
@@ -85,7 +87,7 @@ public class MainAdminController {
     @GetMapping(value = "/master/{id}")
     public List<?> getAllTakenItemsOfMaster(@PathVariable Long id) {
         log.info("Admin get all taken items of master with id "+id);
-        return dao.getAllTakenItemsOfMaster(id);
+        return daoTakenItem.getAllTakenItemsOfMaster(id);
 
     }
 
@@ -96,6 +98,6 @@ public class MainAdminController {
     @GetMapping(value = "/user/{id}/disks")
     public ResponseEntity<?> getListDisks(@PathVariable Long id) {
         log.info("Admin get all disks of user with id "+id);
-        return new ResponseEntity<>(dao.getListDisksForUser(id), HttpStatus.OK);
+        return new ResponseEntity<>(daoDisk.getListDisksForUser(id), HttpStatus.OK);
     }
 }

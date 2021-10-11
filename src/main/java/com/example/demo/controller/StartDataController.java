@@ -5,7 +5,7 @@ import com.example.demo.beans.Credential;
 import com.example.demo.beans.Disk;
 import com.example.demo.beans.TakenItem;
 import com.example.demo.beans.User;
-import com.example.demo.dao.Dao;
+import com.example.demo.dao.DaoTakenItem;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -32,7 +32,7 @@ import java.util.Collections;
 public class StartDataController {
 
     @Autowired
-    private Dao dao;
+    private DaoTakenItem dao;
 
     // <1>
     @RequestMapping(method = RequestMethod.OPTIONS)

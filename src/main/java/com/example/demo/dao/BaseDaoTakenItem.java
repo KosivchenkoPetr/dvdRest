@@ -1,37 +1,27 @@
 package com.example.demo.dao;
-import com.example.demo.beans.Disk;
+
 import com.example.demo.beans.TakenItem;
 import com.example.demo.beans.User;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-public abstract class BaseDao implements Dao {
+public abstract class BaseDaoTakenItem implements DaoTakenItem {
     @PersistenceContext
     private EntityManager em;
 
 
-    public BaseDao() {
+    public BaseDaoTakenItem() {
 
     }
 
+    //TakenItem
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
     public TakenItem getTakenItem(Long id) {
         return em.find(TakenItem.class, id);
-    }
-
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    @Override
-    public Disk getDisk(Long id) {
-        return em.find(Disk.class, id);
-    }
-
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    @Override
-    public User getUser(Long id) {
-        return em.find(User.class, id);
     }
 
     @SuppressWarnings("unchecked")
@@ -43,26 +33,8 @@ public abstract class BaseDao implements Dao {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public void merge(User user) {
-        em.merge(user);
-    }
-
-    @Override
-    @Transactional(propagation = Propagation.REQUIRED)
     public void merge(TakenItem takenItem) {
         em.merge(takenItem);
-    }
-
-    @Override
-    @Transactional(propagation = Propagation.REQUIRED)
-    public void merge(Disk disk) {
-        em.merge(disk);
-    }
-
-    @Override
-    @Transactional
-    public void add(Object obj) {
-        em.persist(obj);
     }
 
     @Transactional
@@ -71,4 +43,14 @@ public abstract class BaseDao implements Dao {
         em.remove(t);
     }
 
+    @Override
+    @Transactional
+    public void add(Object obj) {
+        em.persist(obj);
+    }
+
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    public User getUser(Long id) {
+        return em.find(User.class, id);
+    }
 }

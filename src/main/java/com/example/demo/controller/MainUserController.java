@@ -1,9 +1,12 @@
 package com.example.demo.controller;
 
+import com.example.demo.beans.Credential;
 import com.example.demo.beans.Disk;
 import com.example.demo.beans.TakenItem;
 import com.example.demo.beans.User;
-import com.example.demo.dao.Dao;
+import com.example.demo.dao.DaoDisk;
+import com.example.demo.dao.DaoTakenItem;
+import com.example.demo.dao.DaoUser;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +35,12 @@ public class MainUserController {
 
     private Long idPrincipal;
     @Autowired
-    private Dao dao;
+
+    private DaoTakenItem daoTakenItem;
+    private DaoUser daoUser;
+    private DaoDisk daoDisk;
+
+    private Credential credential;
 
     @RequestMapping(method = RequestMethod.OPTIONS)
     ResponseEntity<?> options() {
@@ -48,7 +56,7 @@ public class MainUserController {
     @GetMapping(value = "/welcome")
     public ResponseEntity<?> welcome() {
         updateDatePrincipal();
-        User user = dao.getUser(idPrincipal);
+        User user = daoUser.getUser(idPrincipal);
         log.info(user.getName()+" welcome screen");
 
         return ResponseEntity.ok("Welcome " + user.getName());
@@ -61,8 +69,8 @@ public class MainUserController {
     )
     @GetMapping(value = "/all/takenItem")
     public ResponseEntity<List<TakenItem>> getAllCollectionTakenItems() {
-        log.info(dao.getUser(idPrincipal).getName()+" get all taken items");
-        return ResponseEntity.ok(dao.getAllTakenItems());
+        log.info(daoUser.getUser(idPrincipal).getName()+" get all taken items");
+        return ResponseEntity.ok(daoTakenItem.getAllTakenItems());
     }
 
     @Operation(
@@ -71,8 +79,8 @@ public class MainUserController {
     )
     @GetMapping(value = "/currentOwner")
     public List<?> getAllTakenItemsOfCurrentOwner() {
-        log.info(dao.getUser(idPrincipal).getName()+" get all taken items of current owner");
-        return dao.getAllTakenItemsOfCurrentOwner(idPrincipal);
+        log.info(daoUser.getUser(idPrincipal).getName()+" get all taken items of current owner");
+        return daoTakenItem.getAllTakenItemsOfCurrentOwner(idPrincipal);
 
     }
 
@@ -82,7 +90,7 @@ public class MainUserController {
     )
     @GetMapping(value = "/currentOwner/free")
     public List<?> getAllTakenItemsFree() {
-        return dao.getAllTakenItemsFree();
+        return daoTakenItem.getAllTakenItemsFree();
 
     }
 
@@ -92,8 +100,8 @@ public class MainUserController {
     )
     @GetMapping(value = "/master")
     public List<?> getAllTakenItemsOfMaster() {
-        log.info(dao.getUser(idPrincipal).getName()+" get all master items");
-        return dao.getAllTakenItemsOfMaster(idPrincipal);
+        log.info(daoUser.getUser(idPrincipal).getName()+" get all master items");
+        return daoTakenItem.getAllTakenItemsOfMaster(idPrincipal);
 
     }
 
@@ -103,8 +111,8 @@ public class MainUserController {
     )
     @GetMapping(value = "/user/disks")
     public ResponseEntity<?> getListDisksForUser() {
-        List<Disk> list = dao.getListDisksForUser(idPrincipal);
-        log.info(dao.getUser(idPrincipal).getName()+" get list disks for user");
+        List<Disk> list = daoDisk.getListDisksForUser(idPrincipal);
+        log.info(daoUser.getUser(idPrincipal).getName()+" get list disks for user");
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
@@ -115,7 +123,7 @@ public class MainUserController {
             Authentication principal = SecurityContextHolder.getContext().getAuthentication();
             userName = principal.getName();
             try {
-                this.idPrincipal = dao.findCredentialByName(userName).getIdClient();
+                this.idPrincipal = daoUser.findCredentialByName(userName).getIdClient();
             } catch (CannotCreateTransactionException e) {
                 log.error("Error: CannotCreateTransaction. Username: "+userName);
             }
