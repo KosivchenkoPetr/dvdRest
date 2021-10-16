@@ -16,7 +16,6 @@ public class ImpDaoTakenItem extends BaseDaoTakenItem implements DaoTakenItem {
     private EntityManager em;
 
 
-
     @Transactional(readOnly = true, rollbackFor = javax.persistence.NoResultException.class)
     @Override
     public List<?> getAllTakenItemsOfCurrentOwner(Long id) {
@@ -46,8 +45,6 @@ public class ImpDaoTakenItem extends BaseDaoTakenItem implements DaoTakenItem {
 
         return list.getResultList();
     }
-
-
 
 
 }

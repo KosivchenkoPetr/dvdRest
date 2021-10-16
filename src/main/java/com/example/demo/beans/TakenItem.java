@@ -1,8 +1,11 @@
 package com.example.demo.beans;
 
 import com.sun.istack.NotNull;
+import lombok.*;
+
 import javax.persistence.*;
 
+@Data
 @Entity(name = "TakenItem")
 @Table(name = "takenItems")
 public class TakenItem {
@@ -22,42 +25,16 @@ public class TakenItem {
         super();
         this.isFree = (currentOwner == null);
     }
-    public Disk getDisk() {
-        return disk;
-    }
-
-    public void setDisk(@NotNull Disk disk) {
-        this.disk = disk;
-        this.isFree = (currentOwner == null);
-    }
-
-    public User getCurrentOwner() {
-        return currentOwner;
-    }
-
-    public void setCurrentOwner(User currentOwner) {
-        this.currentOwner = currentOwner;
-        this.isFree = (currentOwner == null);
-    }
 
     public TakenItem(Disk disk, User currentOwner) {
         super();
         setDisk(disk);
         setCurrentOwner(currentOwner);
-
     }
 
     public TakenItem(Disk disk) {
         super();
         setDisk(disk);
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public boolean isFree() {

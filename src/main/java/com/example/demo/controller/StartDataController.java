@@ -24,10 +24,10 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Collections;
 
+@Slf4j
 @Tag(name = "1. Start", description = "Fill with initial data before use API")
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 @RestController
-@Slf4j
 @RequestMapping("/start")
 public class StartDataController {
 
@@ -52,13 +52,16 @@ public class StartDataController {
     @GetMapping
     public ResponseEntity<?> start() {
 
+//        Disk disk1 = new Disk(1L,"Disk1");
+//        Disk disk2 = new Disk(2L,"Disk2");
+//        Disk disk3 = new Disk(3L,"Disk3");
+
         Disk disk1 = new Disk("Disk1");
         Disk disk2 = new Disk("Disk2");
         Disk disk3 = new Disk("Disk3");
 
-
         User admin = new User("Admin");
-        User user = new User("User");
+        User user = new User("user");
 
         Credential crAdmin = new Credential("admin", "admin", "ADMIN");
         Credential crUser = new Credential("user", "user", "USER");

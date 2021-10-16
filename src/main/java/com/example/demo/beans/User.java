@@ -2,11 +2,11 @@ package com.example.demo.beans;
 
 
 import com.sun.istack.NotNull;
-
+import lombok.Data;
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
+@Data
 @Entity(name = "Client")
 @Table(name = "clients")
 public class User {
@@ -21,24 +21,9 @@ public class User {
     @JoinColumn(name = "user_id")
     private List<Disk> listDisk;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public User(String name) {
         super();
         this.name = name;
-    }
-
-    public List<Disk> getListDisk() {
-        if (listDisk == null) {
-            this.listDisk = new ArrayList<>();
-        }
-        return listDisk;
     }
 
     public void setDisk(@NotNull Disk disk) {
@@ -48,29 +33,6 @@ public class User {
 
     public User() {
 
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Credential getCredential() {
-        if (credential == null) {
-            setCredential(new Credential());
-        }
-        return credential;
-    }
-
-    public void setCredential(Credential credential) {
-        if (credential == null) {
-            credential = new Credential();
-        }
-        this.credential = credential;
-        credential.setUser(this);
     }
 
 }

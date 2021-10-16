@@ -4,9 +4,9 @@ import com.example.demo.beans.Credential;
 import com.example.demo.beans.Disk;
 import com.example.demo.beans.TakenItem;
 import com.example.demo.beans.User;
-import com.example.demo.dao.DaoDisk;
-import com.example.demo.dao.DaoTakenItem;
-import com.example.demo.dao.DaoUser;
+import com.example.demo.service.impl.DiskServiceImpl;
+import com.example.demo.service.impl.TakenItemServiceImpl;
+import com.example.demo.service.impl.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.WebApplicationContext;
+
 import java.util.List;
 
 @Tag(name = "2. User controller", description = "DVD operations with user")
@@ -34,13 +35,22 @@ import java.util.List;
 public class MainUserController {
 
     private Long idPrincipal;
-    @Autowired
 
-    private DaoTakenItem daoTakenItem;
-    private DaoUser daoUser;
-    private DaoDisk daoDisk;
+    @Autowired
+    private TakenItemServiceImpl takenItemService;
+
+    @Autowired
+    private UserServiceImpl userService;
+
+    @Autowired
+    private DiskServiceImpl diskService;
+
 
     private Credential credential;
+
+    public MainUserController() {
+
+    }
 
     @RequestMapping(method = RequestMethod.OPTIONS)
     ResponseEntity<?> options() {
@@ -56,8 +66,8 @@ public class MainUserController {
     @GetMapping(value = "/welcome")
     public ResponseEntity<?> welcome() {
         updateDatePrincipal();
-        User user = daoUser.getUser(idPrincipal);
-        log.info(user.getName()+" welcome screen");
+        User user = userService.getUser(idPrincipal);
+        log.info(user.getName() + " welcome screen");
 
         return ResponseEntity.ok("Welcome " + user.getName());
 
@@ -69,8 +79,9 @@ public class MainUserController {
     )
     @GetMapping(value = "/all/takenItem")
     public ResponseEntity<List<TakenItem>> getAllCollectionTakenItems() {
-        log.info(daoUser.getUser(idPrincipal).getName()+" get all taken items");
-        return ResponseEntity.ok(daoTakenItem.getAllTakenItems());
+        updateDatePrincipal();
+        log.info(userService.getUser(idPrincipal).getName() + " get all taken items");
+        return ResponseEntity.ok(takenItemService.getAllTakenItems());
     }
 
     @Operation(
@@ -79,8 +90,9 @@ public class MainUserController {
     )
     @GetMapping(value = "/currentOwner")
     public List<?> getAllTakenItemsOfCurrentOwner() {
-        log.info(daoUser.getUser(idPrincipal).getName()+" get all taken items of current owner");
-        return daoTakenItem.getAllTakenItemsOfCurrentOwner(idPrincipal);
+        updateDatePrincipal();
+        log.info(userService.getUser(idPrincipal).getName() + " get all taken items of current owner");
+        return takenItemService.getAllTakenItemsOfCurrentOwner(idPrincipal);
 
     }
 
@@ -90,7 +102,7 @@ public class MainUserController {
     )
     @GetMapping(value = "/currentOwner/free")
     public List<?> getAllTakenItemsFree() {
-        return daoTakenItem.getAllTakenItemsFree();
+        return takenItemService.getAllTakenItemsFree();
 
     }
 
@@ -100,8 +112,8 @@ public class MainUserController {
     )
     @GetMapping(value = "/master")
     public List<?> getAllTakenItemsOfMaster() {
-        log.info(daoUser.getUser(idPrincipal).getName()+" get all master items");
-        return daoTakenItem.getAllTakenItemsOfMaster(idPrincipal);
+        log.info(userService.getUser(idPrincipal).getName() + " get all master items");
+        return takenItemService.getAllTakenItemsOfMaster(idPrincipal);
 
     }
 
@@ -111,8 +123,8 @@ public class MainUserController {
     )
     @GetMapping(value = "/user/disks")
     public ResponseEntity<?> getListDisksForUser() {
-        List<Disk> list = daoDisk.getListDisksForUser(idPrincipal);
-        log.info(daoUser.getUser(idPrincipal).getName()+" get list disks for user");
+        List<Disk> list = diskService.getListDisksForUser(idPrincipal);
+        log.info(userService.getUser(idPrincipal).getName() + " get list disks for user");
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
@@ -123,9 +135,10 @@ public class MainUserController {
             Authentication principal = SecurityContextHolder.getContext().getAuthentication();
             userName = principal.getName();
             try {
-                this.idPrincipal = daoUser.findCredentialByName(userName).getIdClient();
+                this.idPrincipal = userService.findCredentialByName(userName).getIdClient();
+                //this.idPrincipal = userService.findCredentialByName(userName).getIdClient();
             } catch (CannotCreateTransactionException e) {
-                log.error("Error: CannotCreateTransaction. Username: "+userName);
+                log.error("Error: CannotCreateTransaction. Username: " + userName);
             }
         }
         // place for log

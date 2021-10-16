@@ -2,6 +2,8 @@ package com.example.demo.beans;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -9,6 +11,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+@Component
     @Entity(name = "Credential")
     @Table(name = "credentials", uniqueConstraints = {@UniqueConstraint(columnNames = {"login"})})
     public class Credential {
