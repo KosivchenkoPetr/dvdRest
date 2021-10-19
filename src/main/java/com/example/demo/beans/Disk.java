@@ -19,7 +19,7 @@ import java.util.Objects;
 public class Disk {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NonNull
