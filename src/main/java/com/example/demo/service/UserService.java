@@ -4,7 +4,6 @@ import com.example.demo.beans.Credential;
 import com.example.demo.beans.User;
 
 public interface UserService {
-    //void merge(User user);
 
     User getUser(Long id);
 

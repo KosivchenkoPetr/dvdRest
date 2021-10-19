@@ -19,19 +19,19 @@ import java.util.Objects;
 public class Disk {
 
     @Id
-    @GeneratedValue
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NonNull
     private String name;
 
     @OneToOne
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    //@JoinColumn(name = "user_id", insertable = false, updatable = false)
     @JsonIgnore
     private User master;
 
     @OneToOne
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    // @JoinColumn(name = "user_id", insertable = false, updatable = false)
     @JsonIgnore
     private User currentOwner;
 
