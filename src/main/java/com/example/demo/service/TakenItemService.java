@@ -5,7 +5,6 @@ import com.example.demo.beans.TakenItem;
 import java.util.List;
 
 public interface TakenItemService {
-    //void merge(TakenItem takenItem);
 
     TakenItem getTakenItem(Long id);
 

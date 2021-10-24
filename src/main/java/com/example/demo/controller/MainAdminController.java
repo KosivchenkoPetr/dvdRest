@@ -9,25 +9,20 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @Tag(name = "3. Admin controller", description = "DVD operations with ADMIN user")
-@Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
+@Scope
 @RestController
 @Slf4j
 @RequestMapping("/admin/diskSharing")
 public class MainAdminController {
-
+    //name = "admin", password = "admin"
     @Autowired
     private TakenItemServiceImpl takenItemService;
     private UserServiceImpl userService;
@@ -55,7 +50,7 @@ public class MainAdminController {
     )
     @GetMapping(value = "/user/{id}/disk/{idDisk}")
     public ResponseEntity<?> addDiskToUser(@PathVariable Long id, @PathVariable Long idDisk) {
-        log.info("Admin add disk with id "+idDisk+" to user with id "+id);
+        log.info("Admin add disk with id " + idDisk + " to user with id " + id);
         return diskService.addDiskToUser(id, idDisk);
     }
 
@@ -65,7 +60,7 @@ public class MainAdminController {
     )
     @GetMapping(value = "/currentOwner/{id}")
     public List<?> getAllTakenItemsOfCurrentOwner(@PathVariable Long id) {
-        log.info("Admin get all taken items of owner with id "+id);
+        log.info("Admin get all taken items of owner with id " + id);
         return takenItemService.getAllTakenItemsOfCurrentOwner(id);
     }
 
@@ -86,7 +81,7 @@ public class MainAdminController {
     )
     @GetMapping(value = "/master/{id}")
     public List<?> getAllTakenItemsOfMaster(@PathVariable Long id) {
-        log.info("Admin get all taken items of master with id "+id);
+        log.info("Admin get all taken items of master with id " + id);
         return takenItemService.getAllTakenItemsOfMaster(id);
 
     }
@@ -97,7 +92,7 @@ public class MainAdminController {
     )
     @GetMapping(value = "/user/{id}/disks")
     public ResponseEntity<?> getListDisks(@PathVariable Long id) {
-        log.info("Admin get all disks of user with id "+id);
+        log.info("Admin get all disks of user with id " + id);
         return new ResponseEntity<>(diskService.getListDisksForUser(id), HttpStatus.OK);
     }
 }

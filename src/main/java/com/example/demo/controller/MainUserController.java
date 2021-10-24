@@ -12,7 +12,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,17 +22,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
 
 @Tag(name = "2. User controller", description = "DVD operations with user")
-@Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
+@Scope
 @RestController
 @Slf4j
 @RequestMapping("/user/diskSharing")
 public class MainUserController {
-
+    //name = "user", password = "user"
     private Long idPrincipal;
 
     @Autowired
@@ -49,7 +47,6 @@ public class MainUserController {
     private Credential credential;
 
     public MainUserController() {
-
     }
 
     @RequestMapping(method = RequestMethod.OPTIONS)
@@ -89,11 +86,10 @@ public class MainUserController {
             description = "Get all taken items of current owner"
     )
     @GetMapping(value = "/currentOwner")
-    public List<?> getAllTakenItemsOfCurrentOwner() {
+    public ResponseEntity<List<TakenItem>> getAllTakenItemsOfCurrentOwner() {
         updateDatePrincipal();
         log.info(userService.getUser(idPrincipal).getName() + " get all taken items of current owner");
-        return takenItemService.getAllTakenItemsOfCurrentOwner(idPrincipal);
-
+        return ResponseEntity.ok(takenItemService.getAllTakenItemsOfCurrentOwner(idPrincipal));
     }
 
     @Operation(
@@ -103,7 +99,6 @@ public class MainUserController {
     @GetMapping(value = "/currentOwner/free")
     public List<?> getAllTakenItemsFree() {
         return takenItemService.getAllTakenItemsFree();
-
     }
 
     @Operation(
@@ -112,9 +107,9 @@ public class MainUserController {
     )
     @GetMapping(value = "/master")
     public List<?> getAllTakenItemsOfMaster() {
+        updateDatePrincipal();
         log.info(userService.getUser(idPrincipal).getName() + " get all master items");
         return takenItemService.getAllTakenItemsOfMaster(idPrincipal);
-
     }
 
     @Operation(
@@ -131,12 +126,12 @@ public class MainUserController {
     private void updateDatePrincipal() {
         String userName;
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
         if (auth != null) {
-            Authentication principal = SecurityContextHolder.getContext().getAuthentication();
-            userName = principal.getName();
+            userName = auth.getName();
+
             try {
                 this.idPrincipal = userService.findCredentialByName(userName).getIdClient();
-                //this.idPrincipal = userService.findCredentialByName(userName).getIdClient();
             } catch (CannotCreateTransactionException e) {
                 log.error("Error: CannotCreateTransaction. Username: " + userName);
             }

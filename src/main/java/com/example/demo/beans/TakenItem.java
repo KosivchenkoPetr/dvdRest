@@ -1,7 +1,6 @@
 package com.example.demo.beans;
 
-import com.sun.istack.NotNull;
-import lombok.*;
+import lombok.Data;
 
 import javax.persistence.*;
 
@@ -11,13 +10,10 @@ import javax.persistence.*;
 public class TakenItem {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "disk_id")
     private Disk disk;
     @OneToOne(cascade = CascadeType.ALL, optional = true)
-    @JoinColumn(name = "user_id")
     private User currentOwner;
     private boolean isFree;
 

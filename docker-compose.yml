@@ -1,13 +1,23 @@
 # docker-compose.yml
-version: '3'
+version: '3.7'
 services:
-  database:
+  db:
     image: "postgres" # use latest official postgres version
     env_file:
-      - database.env # configure postgres
+    - development/database.env # configure postgres
+    #- database.env # configure postgres
     volumes:
       - database-data:/var/lib/postgresql/data/ # persist data even if container shuts down
     ports:
       - "5432:5432"
+  schema:
+    image: "liquibase/liquibase"
+    command: --defaultsFile=/development/liquibase.docker.properties generateChangeLog
+    depends_on:
+      - db
+    volumes:
+      - type: bind
+        source: ./development
+        target: /development
 volumes:
   database-data: # named volumes can be managed easier using docker-compose

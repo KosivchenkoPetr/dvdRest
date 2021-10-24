@@ -19,19 +19,16 @@ import java.util.Objects;
 public class Disk {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NonNull
     private String name;
 
     @OneToOne
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
     @JsonIgnore
     private User master;
 
     @OneToOne
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
     @JsonIgnore
     private User currentOwner;
 
@@ -42,7 +39,7 @@ public class Disk {
         result = prime * result + ((currentOwner == null) ? 0 : currentOwner.hashCode());
         result = prime * result + (int) (id ^ (id >>> 32));
         result = prime * result + ((master == null) ? 0 : master.hashCode());
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + name.hashCode();
         return result;
     }
 

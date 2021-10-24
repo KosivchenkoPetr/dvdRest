@@ -51,6 +51,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
@@ -61,11 +67,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot</artifactId>
             <version>2.5.4</version>
-        </dependency>
-        <dependency>
-            <groupId>com.example</groupId>
-            <artifactId>dvdREST</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>javax.validation</groupId>
@@ -82,7 +83,11 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>4.3.5</version>
+        </dependency>
 
     </dependencies>
 

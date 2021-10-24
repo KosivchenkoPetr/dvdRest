@@ -28,7 +28,7 @@ public class TakenItemServiceImpl implements TakenItemService {
     }
 
     @Override
-    public List<?> getAllTakenItemsOfCurrentOwner(Long id) {
+    public List<TakenItem> getAllTakenItemsOfCurrentOwner(Long id) {
         User user = userRepository.getById(id);
         return takenItemRepository.findByCurrentOwner(user);
     }
