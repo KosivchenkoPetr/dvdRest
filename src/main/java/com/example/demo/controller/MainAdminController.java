@@ -50,7 +50,7 @@ public class MainAdminController {
     )
     @GetMapping(value = "/user/{id}/disk/{idDisk}")
     public ResponseEntity<?> addDiskToUser(@PathVariable Long id, @PathVariable Long idDisk) {
-        log.info("Admin add disk with id "+idDisk+" to user with id "+id);
+        log.info("Admin add disk with id " + idDisk + " to user with id " + id);
         return diskService.addDiskToUser(id, idDisk);
     }
 
@@ -60,7 +60,7 @@ public class MainAdminController {
     )
     @GetMapping(value = "/currentOwner/{id}")
     public List<?> getAllTakenItemsOfCurrentOwner(@PathVariable Long id) {
-        log.info("Admin get all taken items of owner with id "+id);
+        log.info("Admin get all taken items of owner with id " + id);
         return takenItemService.getAllTakenItemsOfCurrentOwner(id);
     }
 
@@ -81,7 +81,7 @@ public class MainAdminController {
     )
     @GetMapping(value = "/master/{id}")
     public List<?> getAllTakenItemsOfMaster(@PathVariable Long id) {
-        log.info("Admin get all taken items of master with id "+id);
+        log.info("Admin get all taken items of master with id " + id);
         return takenItemService.getAllTakenItemsOfMaster(id);
 
     }
@@ -92,7 +92,7 @@ public class MainAdminController {
     )
     @GetMapping(value = "/user/{id}/disks")
     public ResponseEntity<?> getListDisks(@PathVariable Long id) {
-        log.info("Admin get all disks of user with id "+id);
+        log.info("Admin get all disks of user with id " + id);
         return new ResponseEntity<>(diskService.getListDisksForUser(id), HttpStatus.OK);
     }
 }

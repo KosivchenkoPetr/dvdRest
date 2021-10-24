@@ -13,7 +13,6 @@ import javax.persistence.*;
 @Table(name = "credentials", uniqueConstraints = {@UniqueConstraint(columnNames = {"login"})})
 public class Credential {
     @Id
-    // @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToOne(mappedBy = "credential")
     @JsonBackReference

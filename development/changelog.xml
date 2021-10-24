@@ -1,0 +1,81 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+    <changeSet author="liquibase (generated)" id="1634977288002-1">
+        <createTable tableName="clients">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="clients_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="credential_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1634977288002-2">
+        <createTable tableName="taken_items">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="taken_items_pkey"/>
+            </column>
+            <column name="is_free" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="current_owner_id" type="BIGINT"/>
+            <column name="disk_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1634977288002-3">
+        <createTable tableName="disks">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="disks_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="current_owner_id" type="BIGINT"/>
+            <column name="master_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1634977288002-4">
+        <createTable tableName="credentials">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="credentials_pkey"/>
+            </column>
+            <column name="login" type="VARCHAR(255)"/>
+            <column name="password" type="VARCHAR(255)"/>
+            <column name="role" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1634977288002-5">
+        <createTable tableName="clients_list_disk">
+            <column name="client_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="list_disk_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1634977288002-6">
+        <addForeignKeyConstraint baseColumnNames="current_owner_id" baseTableName="taken_items" constraintName="fk1eiewcqlcg3hp6oe8i86kld87" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="clients" validate="true"/>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1634977288002-7">
+        <addForeignKeyConstraint baseColumnNames="master_id" baseTableName="disks" constraintName="fkiaef5t4bjjqryfqcxwfvwmb0e" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="clients" validate="true"/>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1634977288002-8">
+        <addForeignKeyConstraint baseColumnNames="current_owner_id" baseTableName="disks" constraintName="fknl27t8n35xg8xh9rgt0i6x0b8" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="clients" validate="true"/>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1634977288002-9">
+        <addForeignKeyConstraint baseColumnNames="credential_id" baseTableName="clients" constraintName="fkrny00evp5y9eqmt508esmtwhs" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="credentials" validate="true"/>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1634977288002-10">
+        <addForeignKeyConstraint baseColumnNames="client_id" baseTableName="clients_list_disk" constraintName="fkta08ayj8gj13nx8gk2j7h9gah" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="clients" validate="true"/>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1634977288002-11">
+        <addForeignKeyConstraint baseColumnNames="disk_id" baseTableName="taken_items" constraintName="fki28la9crm472iobm6u61lrqx9" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="disks" validate="true"/>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1634977288002-12">
+        <addForeignKeyConstraint baseColumnNames="list_disk_id" baseTableName="clients_list_disk" constraintName="fkscp3a4klc3wy8kox575y0tggk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="disks" validate="true"/>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1634977288002-13">
+        <addUniqueConstraint columnNames="login" constraintName="uk8mtpf80qfxpk6j5buih33kohf" tableName="credentials"/>
+    </changeSet>
+    <changeSet author="liquibase (generated)" id="1634977288002-14">
+        <addUniqueConstraint columnNames="list_disk_id" constraintName="uk_gr3n4c9ek12odh9xip9m9x8h" tableName="clients_list_disk"/>
+    </changeSet>
+</databaseChangeLog>

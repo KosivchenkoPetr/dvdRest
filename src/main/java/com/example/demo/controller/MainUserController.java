@@ -47,7 +47,6 @@ public class MainUserController {
     private Credential credential;
 
     public MainUserController() {
-
     }
 
     @RequestMapping(method = RequestMethod.OPTIONS)
@@ -87,11 +86,10 @@ public class MainUserController {
             description = "Get all taken items of current owner"
     )
     @GetMapping(value = "/currentOwner")
-    public List<?> getAllTakenItemsOfCurrentOwner() {
+    public ResponseEntity<List<TakenItem>> getAllTakenItemsOfCurrentOwner() {
         updateDatePrincipal();
         log.info(userService.getUser(idPrincipal).getName() + " get all taken items of current owner");
-        return takenItemService.getAllTakenItemsOfCurrentOwner(idPrincipal);
-
+        return ResponseEntity.ok(takenItemService.getAllTakenItemsOfCurrentOwner(idPrincipal));
     }
 
     @Operation(
@@ -101,7 +99,6 @@ public class MainUserController {
     @GetMapping(value = "/currentOwner/free")
     public List<?> getAllTakenItemsFree() {
         return takenItemService.getAllTakenItemsFree();
-
     }
 
     @Operation(
@@ -110,9 +107,9 @@ public class MainUserController {
     )
     @GetMapping(value = "/master")
     public List<?> getAllTakenItemsOfMaster() {
+        updateDatePrincipal();
         log.info(userService.getUser(idPrincipal).getName() + " get all master items");
         return takenItemService.getAllTakenItemsOfMaster(idPrincipal);
-
     }
 
     @Operation(
@@ -129,12 +126,12 @@ public class MainUserController {
     private void updateDatePrincipal() {
         String userName;
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
         if (auth != null) {
-            Authentication principal = SecurityContextHolder.getContext().getAuthentication();
-            userName = principal.getName();
+            userName = auth.getName();
+
             try {
                 this.idPrincipal = userService.findCredentialByName(userName).getIdClient();
-                //this.idPrincipal = userService.findCredentialByName(userName).getIdClient();
             } catch (CannotCreateTransactionException e) {
                 log.error("Error: CannotCreateTransaction. Username: " + userName);
             }
