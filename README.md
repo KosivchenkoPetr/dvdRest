@@ -1,10 +1,3 @@
-Виды перевода
-Перевод текстов
-Исходный текст
-REST-servis na SpringBoot === ____ Obshcheye opisaniye - Neobkhodimo napisatʹ avtomatizatsiyu resursa po obmenu DVD diskami - nabor REST-servisov dlya veb-prilozheniya. Yestʹ kollektsiya diskov u kazhdogo uchastnika. Diski mozhno bratʹ i otdavatʹ. Razrabotannyye servisy dolzhny predostavlyatʹ vozmozhnostʹ dlya ucheta diskov u sobstvennikov, peredachi diskov drugim polʹzovatelyam, nalichiya svobodnykh diskov. Detalʹnyye trebovaniya - V sisteme tri sushchnosti: * Disk (DVD-disk)<br> * User<br> * TakenItem (svyazka User-Disk) V prilozhenii predpolagayet·sya pyatʹ ekranov: == * avtorizatsiya, * spisok sobstvennykh diskov u kazhdogo polʹzovatelya, * spisok svobodnykh diskov (u vsekh polʹzovateley nevzyatyye), * spisok diskov, vzyatykh polʹzovatelem; * spisok diskov, vzyatykh u polʹzovatelya (s ukazaniyem, kto vzyal). Disk mozhno vzyatʹ i otdatʹ (bez denezhnykh raschëtov), t.ye. v spiske diskov vzyatykh dolzhna bytʹ knopka "otdatʹ", a v spiske diskov svobodnykh knopka "vzyatʹ".<br> Neobkhodimo sproyektirovatʹ i realizovatʹ REST-servisy dlya takogo prilozheniya.<br> Neobkhodimo ispolʹzovatʹ SpringBoot, JPA, v kachestve SUBD - na vybor, mozhno vstraivayemuyu (hsql). Iskhodniki – na github, bitbucket – na vybor, sborka - Maven.<br> Rekomendatsii == Postaraytesʹ obespechitʹ pokrytiye napisannogo koda yunit-testami<br> Rekomenduyet·sya obespechitʹ loggirovaniye vypolnyayemykh v prilozhenii operatsiy (log mozhno vyvoditʹ v konsolʹ ili sokhranyatʹ v fayl).<br> Poluchayemyye servisom dannyye mogut soderzhatʹ oshibki, kotoryye dolzhny bytʹ razumno obrabotany: kliyent dolzhen poluchitʹ informatsiyu o tom, pochemu yego zapros byl otklonen.<br> Bonus == Dopolnitelʹnym bonusom budet realizatsiya vozmozhnosti avtomaticheskoy generatsii OpenAPI-spetsifikatsii k razrabotannomu servisu
-Ещё
-1 694 / 5 000
-Результаты перевода
 REST service on SpringBoot
 ===
 ____
