@@ -41,7 +41,3 @@ information about why his request was denied.<br>
 Bonus
 ==
 An additional bonus will be the ability to automatically generate an OpenAPI specification for the developed service
-Больше информации об этом исходном тексте
-Чтобы получить дополнительную информацию, введите исходный текст
-Отправить отзыв
-Боковые панели
